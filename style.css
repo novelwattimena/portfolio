@@ -109,7 +109,7 @@ section {
   display: block;
 }
 body {
-  background-image: url(../img/benner-web1.png);
+  background-image: url(img/benner-web1.png);
   /* background-position: 0 100px; */
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -541,7 +541,7 @@ form {
     font-size: 1.5em;
   }
   body {
-    background-image: url(../img/bg-phone.jpg);
+    background-image: url(img/bg-phone.jpg);
   }
   .jumbotron .type-text {
     position: absolute;
@@ -557,7 +557,7 @@ form {
 /* My photo */
 .container .photo-box {
   position: relative;
-  background-image: url(../img/papa&mama.png);
+  background-image: url(img/papa&mama.png);
   background-size: cover;
   background-position: center;
   border-radius: 50%;

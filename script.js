@@ -140,7 +140,7 @@ window.addEventListener("scroll", () => {
 const webnovel = document.querySelector("#welcome-message");
 
 let nama = localStorage.getItem("nama");
-const usernameRegex = /^[aA-zZ ]{5,}$/; // regex untuk username dengan minimal 5 karakter
+const usernameRegex = /^[aA-zZ ]{10,}$/; // regex untuk username dengan minimal 5 karakter
 
 while (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
   const confirmed = confirm("Do you want to enter your name? 😁");
@@ -154,16 +154,16 @@ while (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
 
   if (nama === null || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
     alert(
-      "You need to provide a valid username to use this site. Please make sure your username contains at least 5 characters and consists of only letters, and underscores. 🙏"
+      "You need to provide a valid username to use this site. Please make sure your username contains at least 10 characters and consists of only letters, and underscores. 🙏"
     );
   } else {
     localStorage.setItem("nama", nama);
-    webnovel.innerHTML = alert(`Hello ${nama}, welcome to my web! 😍`);
+    alert(`Hello ${nama}, welcome to my web! 😍`);
     window.location.href = "index.html"; // masuk ke dalam halaman
   }
 }
 if (nama && nama.trim() !== "") {
-  webnovel.innerHTML = alert(`Hi ${nama}, welcome back to my web! 😇`);
+  alert(`Hi ${nama}, welcome back to my web! 😇`);
 }
 //end password
 
