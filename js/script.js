@@ -140,30 +140,38 @@ window.addEventListener("scroll", () => {
 const webnovel = document.querySelector("#welcome-message");
 
 let nama = localStorage.getItem("nama");
-const usernameRegex = /^[aA-zZ ]{10,}$/; // regex untuk username dengan minimal 5 karakter
+const usernameRegex = /^[aA-zZ ]{10,}$/; // regex untuk username dengan minimal 10 karakter
 
-while (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
-  const confirmed = confirm("Do you want to enter your name? 😁");
+if (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
+  while (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
+    const confirmed = confirm("Do you want to enter your name? 😁");
 
-  if (!confirmed) {
-    window.location.href = "about:blank"; // keluar dari halaman
-    break;
+    if (!confirmed) {
+      window.location.href = "about:blank"; // keluar dari halaman
+      break;
+    }
+
+    nama = prompt("Hello, what is your username? ✋");
+
+    if (
+      nama === null ||
+      nama.trim() === "" ||
+      !usernameRegex.test(nama.trim())
+    ) {
+      alert(
+        "You need to provide a valid username to use this site. Please make sure your username contains at least 10 characters and consists of only letters, and underscores. 🙏"
+      );
+    } else {
+      localStorage.setItem("nama", nama);
+      alert(`Hello ${nama}, welcome to my web! 😍`);
+      window.location.href = "index.html"; // masuk ke dalam halaman
+    }
   }
-
-  nama = prompt("Hello, what is your username? ✋");
-
-  if (nama === null || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
-    alert(
-      "You need to provide a valid username to use this site. Please make sure your username contains at least 10 characters and consists of only letters, and underscores. 🙏"
-    );
-  } else {
-    localStorage.setItem("nama", nama);
-    alert(`Hello ${nama}, welcome to my web! 😍`);
-    window.location.href = "index.html"; // masuk ke dalam halaman
+} else {
+  if (!sessionStorage.getItem("visited")) {
+    sessionStorage.setItem("visited", "true");
+    alert(`Hi ${nama}, welcome back to my web! 😇`);
   }
-}
-if (nama && nama.trim() !== "") {
-  alert(`Hi ${nama}, welcome back to my web! 😇`);
 }
 //end password
 
