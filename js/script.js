@@ -2,11 +2,11 @@
 const nav = document.getElementById("home");
 
 window.addEventListener("scroll", function () {
-  scrollposition = window.scrollY;
+  const scrollposition = window.scrollY;
 
   if (scrollposition >= 70) {
     nav.classList.add("navbar");
-  } else if (this.scrollposition <= 70) {
+  } else {
     nav.classList.remove("navbar");
   }
 });
@@ -14,9 +14,9 @@ window.addEventListener("scroll", function () {
 // end nvabar
 
 // Photo family
-const carousel = document.querySelector(".carousel"),
-  firstImg = carousel.querySelectorAll("img")[0];
-arrowIcons = document.querySelectorAll(".wrapper i");
+const carousel = document.querySelector(".carousel");
+const firstImg = carousel?.querySelector("img");
+const arrowIcons = document.querySelectorAll(".wrapper i");
 
 let isDragStart = false,
   isDragging = false,
@@ -25,6 +25,8 @@ let isDragStart = false,
   positionDiff;
 
 const showHideIcons = () => {
+  if (!carousel || !firstImg || arrowIcons.length < 2) return;
+
   // menampilkan dan menyembunyikan ikon prev/next berdasarkan nilai gulir kiri carousel
   let scrollWidth = carousel.scrollWidth - carousel.clientWidth; // mendapatkan lebar gulir maksimum
   arrowIcons[0].style.display = carousel.scrollLeft <= 0 ? "none" : "block";
@@ -34,6 +36,8 @@ const showHideIcons = () => {
 
 arrowIcons.forEach((icon) => {
   icon.addEventListener("click", () => {
+    if (!carousel || !firstImg) return;
+
     // jika ikon yang diklik berada di sebelah kiri, kurangi nilai lebar dari gulir korsel ke kiri, jika tidak, tambahkan ke dalamnya
     let firstImgWidth = firstImg.clientWidth + 14; // mendapatkan lebar img pertama & menambahkan nilai margin 14
     carousel.scrollLeft += icon.id == "left" ? -firstImgWidth : firstImgWidth;
@@ -42,6 +46,8 @@ arrowIcons.forEach((icon) => {
 });
 
 const autoSlide = () => {
+  if (!carousel || !firstImg || positionDiff === undefined) return;
+
   // jika tidak ada gambar tersisa untuk digulir maka kembali dari sini
   if (carousel.scrollLeft == carousel.scrollWidth - carousel.clientWidth)
     return;
@@ -88,15 +94,17 @@ const dragStop = () => {
   autoSlide();
 };
 
-carousel.addEventListener("mousedown", dragStart);
-carousel.addEventListener("touchstart", dragStart);
+if (carousel) {
+  carousel.addEventListener("mousedown", dragStart);
+  carousel.addEventListener("touchstart", dragStart, { passive: true });
 
-carousel.addEventListener("mousemove", dragging);
-carousel.addEventListener("touchmove", dragging);
+  carousel.addEventListener("mousemove", dragging);
+  carousel.addEventListener("touchmove", dragging, { passive: false });
 
-carousel.addEventListener("mouseup", dragStop);
-carousel.addEventListener("mouseleave", dragStop);
-carousel.addEventListener("touchend", dragStop);
+  carousel.addEventListener("mouseup", dragStop);
+  carousel.addEventListener("mouseleave", dragStop);
+  carousel.addEventListener("touchend", dragStop);
+}
 
 window.addEventListener("resize", showHideIcons); // Panggil saat perubahan ukuran layar
 
@@ -107,16 +115,18 @@ showHideIcons(); // Panggil saat inisialisasi untuk menyembunyikan ikon yang tid
 // Toggle class active untuk search form
 const searchForm = document.querySelector(".search-form");
 const searchBox = document.querySelector("#search-box");
+const searchButton = document.querySelector("#search-button");
+const searchGoogleButton = document.querySelector("#search-google");
 
-document.querySelector("#search-button").onclick = (e) => {
-  searchForm.classList.toggle("active");
-  searchBox.focus();
+searchButton?.addEventListener("click", (e) => {
   e.preventDefault();
-};
+  searchForm?.classList.toggle("active");
+  searchBox?.focus();
+});
 
-document.getElementById("search-google").addEventListener("click", search);
+searchGoogleButton?.addEventListener("click", search);
 function search() {
-  let value = document.getElementById("search-box").value;
+  let value = searchBox?.value.trim();
   const baseUrl = "https://google.com/search?q=";
   if (!value) value = "Novel Wattimena";
   location.href = baseUrl + encodeURIComponent(value);
@@ -125,22 +135,20 @@ function search() {
 //end toggle search
 
 //parallax
-let paralax = document.getElementById("paralax");
-let element = document.getElementById("element");
+const paralax = document.getElementById("paralax");
+const element = document.getElementById("element");
 
 window.addEventListener("scroll", () => {
   let value = window.scrollY;
 
-  paralax.style.marginTop = value * 0.8 + "px";
-  element.style.marginTop = value * 0.5 + "px";
+  if (paralax) paralax.style.marginTop = value * 0.8 + "px";
+  if (element) element.style.marginTop = value * 0.5 + "px";
 });
 //end parallax
 
 // Password
-const webnovel = document.querySelector("#welcome-message");
-
 let nama = localStorage.getItem("nama");
-const usernameRegex = /^[aA-zZ ]{10,}$/; // regex untuk username dengan minimal 10 karakter
+const usernameRegex = /^[A-Za-z ]{10,}$/;
 
 if (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
   while (!nama || nama.trim() === "" || !usernameRegex.test(nama.trim())) {
